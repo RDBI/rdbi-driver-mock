@@ -5,11 +5,15 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "rdbi-driver-mock"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Mock Driver for RDBI, used for testing}
+    gem.description = gem.summary
     gem.email = "erik@hollensbe.org"
     gem.homepage = "http://github.com/erikh/rdbi-driver-mock"
     gem.authors = ["Erik Hollensbe"]
+
+    gem.add_development_dependency 'test-unit'
+    gem.add_development_dependency 'yard'
+    gem.add_dependency 'rdbi'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -41,12 +45,19 @@ task :test => :check_dependencies
 
 task :default => :test
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "rdbi-driver-mock #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new do |yard|
+    yard.files   = %w[lib/**/*.rb README*]
+    yard.options = %w[--protected --private ]
+  end
+  
+  task :rdoc => [:yard]
+  task :clobber_rdoc => [:yard]
+rescue LoadError => e
+  [:rdoc, :yard, :clobber_rdoc].each do |my_task|
+    task my_task do
+      abort "YARD is not available, which is needed to generate this documentation"
+    end
+  end
 end
