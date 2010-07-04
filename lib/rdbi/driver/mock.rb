@@ -9,6 +9,7 @@ module RDBI
     # XXX STUB
     class Mock::STH < RDBI::Statement
       attr_accessor :result
+      attr_accessor :rows
       attr_accessor :set_schema
       attr_accessor :input_type_map
 
@@ -34,7 +35,11 @@ module RDBI
                       end
                     end
 
-        return this_data, @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
+        if @rows
+          return this_data, @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out), @rows
+        else
+          return this_data, @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
+        end
       end
     end
 
