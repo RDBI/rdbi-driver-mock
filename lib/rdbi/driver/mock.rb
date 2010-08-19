@@ -107,7 +107,8 @@ module RDBI
       end
 
       def rest
-        @handle[@index, @index.size]
+        oindex, @index = @index, @handle.size
+        @handle[oindex, @index]
       end
 
       def all
@@ -124,6 +125,10 @@ module RDBI
 
       def rewind
         @index = 0
+      end
+
+      def empty?
+        @handle.empty?
       end
     end
   end
