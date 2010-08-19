@@ -80,14 +80,16 @@ module RDBI
       end
 
       def fetch(count=1)
+        return [] if last_row?
         a = []
         count.times { a.push(next_row) }
         return a
       end
 
       def next_row
+        retval = @handle[@index]
         @index += 1
-        @handle[@index]
+        return retval
       end
 
       def result_count
@@ -99,11 +101,11 @@ module RDBI
       end
       
       def first
-        @handle[0]
+        @handle.first
       end
 
       def last
-        @handle[-1]
+        @handle.last
       end
 
       def rest
