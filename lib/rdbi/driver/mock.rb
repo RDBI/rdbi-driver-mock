@@ -35,11 +35,7 @@ module RDBI
                       end
                     end
 
-        if @affected_count
-          return Mock::Cursor.new(this_data), @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out), @affected_count
-        else
-          return Mock::Cursor.new(this_data), @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
-        end
+        return Mock::Cursor.new(this_data), @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
       end
     end
 
