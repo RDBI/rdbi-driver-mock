@@ -72,6 +72,54 @@ module RDBI
         ret
       end
     end
+
+    class Mock::Cursor < RDBI::Cursor
+      def initialize(handle)
+        super(handle)
+        @index = 0
+      end
+
+      def next_row
+        @index += 1
+        @handle[@index]
+      end
+
+      def result_count
+        @handle.size
+      end
+
+      def affected_count
+        16 # magic number
+      end
+      
+      def first
+        @handle[0]
+      end
+
+      def last
+        @handle[-1]
+      end
+
+      def rest
+        @handle[@index, @index.size]
+      end
+
+      def all
+        @handle.dup
+      end
+
+      def [](index)
+        @handle[index]
+      end
+
+      def last_row?
+        @index == @handle.size
+      end
+
+      def rewind
+        @index = 0
+      end
+    end
   end
 end
 
