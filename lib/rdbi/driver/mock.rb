@@ -79,6 +79,12 @@ module RDBI
         @index = 0
       end
 
+      def fetch(count=1)
+        a = []
+        count.times { a.push(next_row) }
+        return a
+      end
+
       def next_row
         @index += 1
         @handle[@index]
