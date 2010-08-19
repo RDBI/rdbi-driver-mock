@@ -36,9 +36,9 @@ module RDBI
                     end
 
         if @affected_count
-          return this_data, @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out), @affected_count
+          return Mock::Cursor.new(this_data), @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out), @affected_count
         else
-          return this_data, @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
+          return Mock::Cursor.new(this_data), @set_schema || RDBI::Schema.new((0..9).to_a.map { |x| RDBI::Column.new(x) }), RDBI::Type.create_type_hash(RDBI::Type::Out)
         end
       end
     end
@@ -75,7 +75,7 @@ module RDBI
 
     class Mock::Cursor < RDBI::Cursor
       def initialize(handle)
-        super(handle)
+        super(handle.dup)
         @index = 0
       end
 
