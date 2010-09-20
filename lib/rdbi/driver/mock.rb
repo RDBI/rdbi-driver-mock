@@ -15,6 +15,7 @@ module RDBI
 
       def initialize(query, dbh)
         super
+        prep_finalizer
       end
 
       # just to be abundantly clear, this is a mock method intended to
@@ -122,6 +123,7 @@ module RDBI
       end
 
       def rewind
+        raise StandardError, "cannot rewind without rewindable_result set to true" unless rewindable_result
         @index = 0
       end
 
