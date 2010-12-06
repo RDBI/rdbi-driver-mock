@@ -41,8 +41,6 @@ module RDBI
     end
 
     class Mock::DBH < RDBI::Database
-      extend MethLab
-
       attr_accessor :next_action
 
       def new_statement(query)
@@ -53,10 +51,13 @@ module RDBI
         10
       end
 
-      inline(:rollback) { super(); "rollback called" }
+      def rollback
+        super();
+        "rollback called"
+      end
 
       # XXX more methods to be defined this way.
-      inline(:commit) do |*args|
+      def commit(*args)
         super(*args)
 
         ret = nil
