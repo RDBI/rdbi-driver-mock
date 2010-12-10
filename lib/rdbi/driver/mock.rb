@@ -48,7 +48,7 @@ module RDBI
       end
 
       def ping
-        10
+        connected? ? 10 : nil
       end
 
       def rollback
