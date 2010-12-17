@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{Mock Driver for RDBI, used for testing}
     gem.description = gem.summary
     gem.email = "erik@hollensbe.org"
-    gem.homepage = "http://github.com/erikh/rdbi-driver-mock"
+    gem.homepage = "http://github.com/RDBI/rdbi-driver-mock"
     gem.authors = ["Erik Hollensbe"]
 
     gem.add_development_dependency 'test-unit'
