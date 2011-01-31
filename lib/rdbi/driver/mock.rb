@@ -15,6 +15,7 @@ module RDBI
 
       def initialize(query, dbh)
         super
+        @set_schema = nil
         prep_finalizer
       end
 
