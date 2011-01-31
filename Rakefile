@@ -1,43 +1,35 @@
+# -*- ruby -*-
+
 require 'rubygems'
-require 'rake'
+require 'hoe'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "rdbi-driver-mock"
-    gem.summary = %Q{Mock Driver for RDBI, used for testing}
-    gem.description = gem.summary
-    gem.email = "erik@hollensbe.org"
-    gem.homepage = "http://github.com/RDBI/rdbi-driver-mock"
-    gem.authors = ["Erik Hollensbe"]
+Hoe.plugins.delete :rubyforge
+Hoe.plugin :git
 
-    gem.add_development_dependency 'test-unit'
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
+Hoe.spec 'rdbi-driver-mock' do
+  developer 'Erik Hollensbe', 'erik@hollensbe.org'
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
+  self.rubyforge_name = nil
 
-begin
-  require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
-    test.verbose = true
-  end
-rescue LoadError
-  task :rcov do
-    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+  self.description = <<-EOF
+  This is the mock driver we use to facilitate testing.
+
+  RDBI is a database interface built out of small parts. A micro framework for
+  databases, RDBI works with and extends libraries like 'typelib' and 'epoxy'
+  to provide type conversion and binding facilities. Via a driver/adapter
+  system it provides database access. RDBI itself provides pooling and other
+  enhanced database features.
+  EOF
+
+  self.summary = 'Mock driver for RDBI. For testing only.'
+  self.url = %w[http://github.com/rdbi/rdbi-driver-mock]
+  
+  require_ruby_version ">= 1.8.7"
+
+  extra_deps << ['rdbi']
+
+  desc "install a gem without sudo"
+  task :install => [:gem] do
+    sh "gem install pkg/#{self.name}-#{self.version}.gem"
   end
 end
-
-task :test => :check_dependencies
-task :default => :test

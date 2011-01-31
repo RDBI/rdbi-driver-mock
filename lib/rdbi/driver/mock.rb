@@ -1,3 +1,5 @@
+require 'rdbi-driver-mock'
+
 module RDBI
   class Driver
     class Mock < RDBI::Driver
