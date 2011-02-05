@@ -6,7 +6,7 @@ require 'hoe'
 Hoe.plugins.delete :rubyforge
 Hoe.plugin :git
 
-Hoe.spec 'rdbi-driver-mock' do
+spec = Hoe.spec 'rdbi-driver-mock' do
   developer 'Erik Hollensbe', 'erik@hollensbe.org'
 
   self.rubyforge_name = nil
@@ -29,7 +29,8 @@ Hoe.spec 'rdbi-driver-mock' do
   extra_deps << ['rdbi']
 
   desc "install a gem without sudo"
-  task :install => [:gem] do
-    sh "gem install pkg/#{self.name}-#{self.version}.gem"
-  end
+end
+
+task :install => [:gem] do
+  sh "gem install pkg/#{spec.name}-#{spec.version}.gem"
 end
